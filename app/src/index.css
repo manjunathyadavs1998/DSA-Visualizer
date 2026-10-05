@@ -1,0 +1,268 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------------------------------------------------------------------------
+   Theme palette — RGB triplets consumed by tailwind.config.js tokens
+   (ink/panel/line/t1…t5/cy/am/gr/pu/pk …). Default = dark; html.light flips.
+--------------------------------------------------------------------------- */
+:root {
+  /* "soft dark": lifted blue-gray surfaces + eased contrast, easier on the eyes
+     than the original near-black terminal palette */
+  --rl-ink: 17 23 38; /* page background */
+  --rl-panel: 26 33 51; /* panel surface */
+  --rl-panel2: 34 43 64; /* hover surface */
+  --rl-line: 48 60 88; /* primary border */
+  --rl-line2: 39 50 74; /* soft border */
+  --rl-mid: 71 85 105; /* strong border / structures */
+  --rl-t1: 221 228 240; /* primary text */
+  --rl-t2: 160 174 196; /* secondary text */
+  --rl-t3: 122 137 162; /* muted text */
+  --rl-t4: 95 110 136; /* faint text */
+  --rl-t5: 76 90 115; /* ghost text */
+  --rl-codedim: 141 156 185; /* inactive code */
+  --rl-comment: 96 113 145; /* code comments */
+  --rl-cy: 56 189 248; /* sky accent (softer than neon cyan) */
+  --rl-cyt: 165 220 252; /* sky text-on-tint */
+  --rl-am: 251 191 36; /* amber accent */
+  --rl-amt: 253 230 138; /* amber text-on-tint */
+  --rl-gr: 52 211 153; /* green accent */
+  --rl-grt: 110 231 183; /* green text-on-tint */
+  --rl-pu: 192 132 252; /* purple accent */
+  --rl-pk: 244 114 182; /* pink accent */
+  --rl-scanline: rgba(255, 255, 255, 0.012);
+}
+
+html.light {
+  --rl-ink: 237 241 248;
+  --rl-panel: 255 255 255;
+  --rl-panel2: 240 244 250;
+  --rl-line: 212 221 238;
+  --rl-line2: 228 234 244;
+  --rl-mid: 168 181 205;
+  --rl-t1: 15 23 42;
+  --rl-t2: 51 65 85;
+  --rl-t3: 84 99 125;
+  --rl-t4: 124 139 164;
+  --rl-t5: 150 161 181;
+  --rl-codedim: 71 85 112;
+  --rl-comment: 148 163 184;
+  --rl-cy: 8 145 178;
+  --rl-cyt: 14 116 144;
+  --rl-am: 180 83 9;
+  --rl-amt: 146 64 14;
+  --rl-gr: 5 150 105;
+  --rl-grt: 4 120 87;
+  --rl-pu: 126 34 206;
+  --rl-pk: 190 24 93;
+  --rl-scanline: rgba(13, 30, 60, 0.025);
+}
+
+/* Composed colors for inline styles and SVG fills/strokes (follow the theme) */
+:root {
+  --c-ink: rgb(var(--rl-ink));
+  --c-panel: rgb(var(--rl-panel));
+  --c-line: rgb(var(--rl-line));
+  --c-mid: rgb(var(--rl-mid));
+  --c-t2: rgb(var(--rl-t2));
+  --c-t4: rgb(var(--rl-t4));
+  --c-cy: rgb(var(--rl-cy));
+  --c-cyt: rgb(var(--rl-cyt));
+  --c-am: rgb(var(--rl-am));
+  --c-amt: rgb(var(--rl-amt));
+  --c-gr: rgb(var(--rl-gr));
+  --c-grt: rgb(var(--rl-grt));
+  --c-pu: rgb(var(--rl-pu));
+  --c-pk: rgb(var(--rl-pk));
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+    background: rgb(var(--rl-ink));
+  }
+
+  body {
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  code,
+  kbd,
+  pre {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  ::selection {
+    background: rgb(var(--rl-cy) / 0.3);
+  }
+}
+
+/* thin themed scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgb(var(--rl-panel));
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--rl-line));
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--rl-cy) / 0.33);
+}
+
+/* pulsing status dots */
+@keyframes pulseDot {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 currentColor;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+.pulse-dot {
+  animation: pulseDot 1.5s ease-in-out infinite;
+}
+
+/* recursion tree node motion */
+.tree-node {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.edge-line {
+  transition:
+    stroke 0.25s ease,
+    stroke-opacity 0.25s ease;
+}
+
+@keyframes nodeGlow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 2px color-mix(in srgb, var(--c-am) 70%, transparent));
+  }
+  50% {
+    filter: drop-shadow(0 0 9px color-mix(in srgb, var(--c-am) 90%, transparent));
+  }
+}
+.node-current {
+  animation: nodeGlow 1.4s ease-in-out infinite;
+}
+
+@keyframes retPop {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.ret-pop {
+  animation: retPop 0.3s ease-out;
+}
+
+/* value-change pop (array cells, memo cells, heap chips) */
+@keyframes vizPop {
+  from {
+    transform: scale(1.25);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+.viz-pop {
+  animation: vizPop 0.25s ease-out;
+}
+
+/* stack frame entrance */
+@keyframes frameIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.frame-in {
+  animation: frameIn 0.25s ease-out;
+}
+
+/* hanoi disk entrance */
+@keyframes diskIn {
+  from {
+    opacity: 0.3;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.disk-in {
+  animation: diskIn 0.25s ease-out;
+}
+
+/* subtle scanline texture over the tree stage */
+.tree-stage::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    var(--rl-scanline) 3px
+  );
+}
+
+/* narration bold values */
+.narration b {
+  color: rgb(var(--rl-amt));
+  font-weight: 600;
+}
+
+/* timeline scrubber thumb */
+.timeline-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+  background: rgb(var(--rl-cy));
+  border: 2px solid rgb(var(--rl-ink));
+  cursor: pointer;
+}
+.timeline-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+  background: rgb(var(--rl-cy));
+  border: 2px solid rgb(var(--rl-ink));
+  cursor: pointer;
+}
+
+/* range slider thumb */
+.speed-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  background: rgb(var(--rl-cy));
+  border: none;
+  cursor: pointer;
+}
+.speed-slider::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  background: rgb(var(--rl-cy));
+  border: none;
+  cursor: pointer;
+}
