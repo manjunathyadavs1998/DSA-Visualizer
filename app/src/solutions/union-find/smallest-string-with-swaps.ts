@@ -3,7 +3,6 @@ import type { SolutionDef } from "@/engine/types"
 // str1 = "dcab", str2 = "ab"
 // pairs: (0,3) d↔b, (1,2) c↔a  → swap d↔b and c↔a → "bacd" → sort → "abcd"
 const STR1 = "dcab"
-const STR2 = "ab"
 const PAIRS: [number, number][] = [[0, 3], [1, 2]]
 
 export const smallestStringWithSwaps: SolutionDef = {
