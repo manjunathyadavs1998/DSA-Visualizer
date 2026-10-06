@@ -10,15 +10,15 @@ export default function NarrationBar({
   html?: boolean;
 }) {
   return (
-    <div className="narration shrink-0 border-t border-line bg-panel/90 px-4 py-1 backdrop-blur-sm">
-      <p className="h-4 truncate text-[10px] leading-4 text-t4">{prev ?? ''}</p>
+    <div className="narration shrink-0 border-t border-line bg-panel/95 px-5 py-2 backdrop-blur-sm">
+      <p className="narration-prev mb-0.5 h-[18px] truncate leading-[18px]">{prev ?? ''}</p>
       {html ? (
         <p
-          className="truncate text-[12px] leading-5 text-t2"
+          className="narration-current truncate"
           dangerouslySetInnerHTML={{ __html: current }}
         />
       ) : (
-        <p className="truncate text-[12px] leading-5 text-t2">{current}</p>
+        <p className="narration-current truncate">{current}</p>
       )}
     </div>
   );

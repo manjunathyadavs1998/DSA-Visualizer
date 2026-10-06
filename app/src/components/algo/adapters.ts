@@ -42,18 +42,35 @@ export const stripHtml = (s: string) => s.replace(/<[^>]+>/g, '');
 /* ------- heuristics that light up the input tree/graph diagrams ------- */
 
 /** The node currently being processed: first numeric argument of the top stack
- *  frame (call labels look like "dfs(4)" / "bfs(0)" / "depth(20)"). */
+ *  frame (call labels look like "dfs(4)" / "bfs(0)" / "depth(20)"),
+ *  or the "u" / "node" / "src" var of the top frame for iterative solutions. */
 export function currentArgOf(st: DerivedState): number | null {
   const top = st.stack[st.stack.length - 1];
   if (!top) return null;
   const m = top.label.match(/\((-?\d+)/);
-  return m ? Number(m[1]) : null;
+  if (m) return Number(m[1]);
+  // fallback: iterative solutions emit vars({ u }) / vars({ node }) / vars({ src })
+  const vars = top.vars ?? {};
+  for (const key of ['u', 'node', 'src', 'v', 'k']) {
+    const val = vars[key];
+    if (val !== undefined && /^\d+$/.test(String(val))) return Number(val);
+  }
+  return null;
 }
 
 /** Heap snapshot names whose values mean "processed / finished". */
-export const DONE_KEYS = ['order', 'output', 'levelOrder', 'visited', 'returned'];
+export const DONE_KEYS = [
+  'order', 'output', 'levelOrder', 'visited', 'returned',
+  // graph algorithm specific
+  'components', 'safeList', 'accepted', 'merged',
+  'state', 'cloned', 'dist', 'inMST', 'mstEdges',
+];
 /** Heap snapshot names whose values mean "waiting in the frontier". */
-export const FRONTIER_KEYS = ['queue', 'stack', 'finishStack'];
+export const FRONTIER_KEYS = [
+  'queue', 'stack', 'finishStack',
+  // graph algorithm specific
+  'pq', 'leaves',
+];
 
 /** Collect numeric values from the named heap arrays (pairs contribute their
  *  first element — e.g. priority-queue entries like [node, dist]). */

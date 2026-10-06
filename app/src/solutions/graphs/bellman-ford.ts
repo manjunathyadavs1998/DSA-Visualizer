@@ -63,6 +63,7 @@ int[] bellmanFord(int src) {
           line(3, `<b>Round ${round}</b>: relax all ${EDGES.length} edges. After round ${round}, every shortest path using ≤ ${round} edges is locked in.`)
           for (let e = 0; e < EDGES.length; e++) {
             const [u, v, w] = EDGES[e]
+            vars({ u, v })
             ptr("e", e)
             mark("focus", [e])
             if (dist[u] + w < dist[v]) {

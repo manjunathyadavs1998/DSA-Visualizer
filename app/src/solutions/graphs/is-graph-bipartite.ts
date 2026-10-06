@@ -64,11 +64,15 @@ boolean isBipartite() {
         while (queue.length > 0) {
           const u = queue.shift() as number
           vars({ u, color: NAME[color[u] as number] })
+          heap("queue", [...queue])
           for (const v of ADJ[u]) {
             if (color[v] === undefined) {
               color[v] = 1 - (color[u] as number)
               queue.push(v)
               heap("color", snap())
+              heap("queue", [...queue])
+              const colored = color.map((c, i) => c !== undefined ? i : -1).filter(i => i >= 0)
+              heap("visited", colored)
               line(8, `Edge ${u}→${v}: ${v} is unpainted — it must take the <b>opposite</b> of ${u}'s ${NAME[color[u] as number]}, so ${v} becomes ${NAME[color[v]]}.`)
             } else if (color[v] === color[u]) {
               line(11, `Edge ${u}→${v}: both ${NAME[color[u] as number]} — an edge inside one group. <b>Not bipartite.</b>`)

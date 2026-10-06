@@ -7,55 +7,55 @@
    (ink/panel/line/t1…t5/cy/am/gr/pu/pk …). Default = dark; html.light flips.
 --------------------------------------------------------------------------- */
 :root {
-  /* "soft dark": lifted blue-gray surfaces + eased contrast, easier on the eyes
-     than the original near-black terminal palette */
-  --rl-ink: 17 23 38; /* page background */
-  --rl-panel: 26 33 51; /* panel surface */
-  --rl-panel2: 34 43 64; /* hover surface */
-  --rl-line: 48 60 88; /* primary border */
-  --rl-line2: 39 50 74; /* soft border */
-  --rl-mid: 71 85 105; /* strong border / structures */
-  --rl-t1: 221 228 240; /* primary text */
-  --rl-t2: 160 174 196; /* secondary text */
-  --rl-t3: 122 137 162; /* muted text */
-  --rl-t4: 95 110 136; /* faint text */
-  --rl-t5: 76 90 115; /* ghost text */
-  --rl-codedim: 141 156 185; /* inactive code */
-  --rl-comment: 96 113 145; /* code comments */
-  --rl-cy: 56 189 248; /* sky accent (softer than neon cyan) */
-  --rl-cyt: 165 220 252; /* sky text-on-tint */
-  --rl-am: 251 191 36; /* amber accent */
-  --rl-amt: 253 230 138; /* amber text-on-tint */
-  --rl-gr: 52 211 153; /* green accent */
-  --rl-grt: 110 231 183; /* green text-on-tint */
-  --rl-pu: 192 132 252; /* purple accent */
-  --rl-pk: 244 114 182; /* pink accent */
-  --rl-scanline: rgba(255, 255, 255, 0.012);
+  /* "warm dark": brown-tinted charcoal base — reduces blue-light eye strain,
+     improves contrast ratios, softer accents, clear panel separation */
+  --rl-ink: 18 17 20;       /* page bg — near-black with warm undertone */
+  --rl-panel: 26 25 30;     /* panel surface — lifted warm charcoal */
+  --rl-panel2: 34 33 40;    /* hover surface */
+  --rl-line: 52 50 62;      /* primary border — visible but not harsh */
+  --rl-line2: 42 40 52;     /* soft border */
+  --rl-mid: 80 77 96;       /* strong border / structures */
+  --rl-t1: 232 228 220;     /* primary text — warm white, not cold */
+  --rl-t2: 178 172 160;     /* secondary text */
+  --rl-t3: 136 130 118;     /* muted text */
+  --rl-t4: 100 95 86;       /* faint text */
+  --rl-t5: 72 68 62;        /* ghost text */
+  --rl-codedim: 155 150 138; /* inactive code — readable, not washed out */
+  --rl-comment: 108 104 94; /* code comments */
+  --rl-cy: 82 193 196;      /* teal accent — softer than neon cyan */
+  --rl-cyt: 160 220 222;    /* teal text-on-tint */
+  --rl-am: 220 168 60;      /* warm amber — less harsh than pure yellow */
+  --rl-amt: 240 205 120;    /* amber text-on-tint */
+  --rl-gr: 80 195 140;      /* sage green — softer than emerald */
+  --rl-grt: 140 220 180;    /* green text-on-tint */
+  --rl-pu: 172 140 230;     /* soft lavender */
+  --rl-pk: 220 120 160;     /* muted rose */
+  --rl-scanline: rgba(255, 255, 255, 0.008);
 }
 
 html.light {
-  --rl-ink: 237 241 248;
-  --rl-panel: 255 255 255;
-  --rl-panel2: 240 244 250;
-  --rl-line: 212 221 238;
-  --rl-line2: 228 234 244;
-  --rl-mid: 168 181 205;
-  --rl-t1: 15 23 42;
-  --rl-t2: 51 65 85;
-  --rl-t3: 84 99 125;
-  --rl-t4: 124 139 164;
-  --rl-t5: 150 161 181;
-  --rl-codedim: 71 85 112;
-  --rl-comment: 148 163 184;
-  --rl-cy: 8 145 178;
-  --rl-cyt: 14 116 144;
-  --rl-am: 180 83 9;
-  --rl-amt: 146 64 14;
-  --rl-gr: 5 150 105;
-  --rl-grt: 4 120 87;
-  --rl-pu: 126 34 206;
-  --rl-pk: 190 24 93;
-  --rl-scanline: rgba(13, 30, 60, 0.025);
+  --rl-ink: 248 246 242;     /* warm off-white — not stark white */
+  --rl-panel: 255 254 251;   /* panel surface */
+  --rl-panel2: 242 239 234;  /* hover surface */
+  --rl-line: 210 205 194;    /* primary border */
+  --rl-line2: 228 224 216;   /* soft border */
+  --rl-mid: 170 164 150;     /* strong border */
+  --rl-t1: 28 24 18;         /* primary text — warm near-black */
+  --rl-t2: 64 58 48;         /* secondary text */
+  --rl-t3: 100 94 82;        /* muted text */
+  --rl-t4: 140 134 120;      /* faint text */
+  --rl-t5: 172 166 152;      /* ghost text */
+  --rl-codedim: 80 74 64;    /* inactive code */
+  --rl-comment: 148 142 128; /* code comments */
+  --rl-cy: 12 130 148;       /* teal — readable on warm white */
+  --rl-cyt: 8 104 120;       /* teal text-on-tint */
+  --rl-am: 160 100 10;       /* amber — warm brown-orange */
+  --rl-amt: 130 78 8;        /* amber text-on-tint */
+  --rl-gr: 30 130 90;        /* sage green */
+  --rl-grt: 20 104 72;       /* green text-on-tint */
+  --rl-pu: 110 60 190;       /* purple */
+  --rl-pk: 180 50 100;       /* rose */
+  --rl-scanline: rgba(60, 40, 10, 0.018);
 }
 
 /* Composed colors for inline styles and SVG fills/strokes (follow the theme) */
@@ -102,17 +102,18 @@ html.light {
 
 /* thin themed scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: rgb(var(--rl-panel));
+  background: rgb(var(--rl-ink));
 }
 ::-webkit-scrollbar-thumb {
-  background: rgb(var(--rl-line));
+  background: rgb(var(--rl-mid) / 0.5);
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(var(--rl-cy) / 0.33);
+  background: rgb(var(--rl-cy) / 0.45);
 }
 
 /* pulsing status dots */
@@ -144,10 +145,10 @@ html.light {
 @keyframes nodeGlow {
   0%,
   100% {
-    filter: drop-shadow(0 0 2px color-mix(in srgb, var(--c-am) 70%, transparent));
+    filter: drop-shadow(0 0 3px color-mix(in srgb, var(--c-am) 60%, transparent));
   }
   50% {
-    filter: drop-shadow(0 0 9px color-mix(in srgb, var(--c-am) 90%, transparent));
+    filter: drop-shadow(0 0 10px color-mix(in srgb, var(--c-am) 80%, transparent));
   }
 }
 .node-current {
@@ -228,7 +229,18 @@ html.light {
 /* narration bold values */
 .narration b {
   color: rgb(var(--rl-amt));
-  font-weight: 600;
+  font-weight: 650;
+}
+
+/* narration bar — slightly larger, more breathing room */
+.narration-current {
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: rgb(var(--rl-t1));
+}
+.narration-prev {
+  font-size: 10.5px;
+  color: rgb(var(--rl-t4));
 }
 
 /* timeline scrubber thumb */
