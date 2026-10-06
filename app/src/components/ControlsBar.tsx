@@ -45,10 +45,10 @@ function Btn({
       onClick={onClick}
       disabled={disabled}
       title={title}
-      className={`flex h-9 items-center gap-1.5 border px-3 text-[11px] font-medium uppercase tracking-[0.16em] transition-all duration-150 disabled:cursor-not-allowed disabled:opacity-30 ${
+      className={`flex h-9 items-center gap-1.5 rounded border px-3.5 text-[11.5px] font-medium uppercase tracking-[0.14em] transition-all duration-150 disabled:cursor-not-allowed disabled:opacity-30 ${
         accent
-          ? 'border-cy/60 bg-cy/15 text-cy hover:bg-cy/25'
-          : 'border-line text-t2 hover:border-mid hover:text-t1'
+          ? 'border-cy/50 bg-cy/[0.14] text-cy hover:bg-cy/[0.22]'
+          : 'border-line/80 text-t2 hover:border-mid hover:bg-panel2 hover:text-t1'
       }`}
     >
       {children}
@@ -72,7 +72,7 @@ function JumpBtn({
       onClick={() => onJump(target)}
       disabled={target === null}
       title={title}
-      className="flex h-7 items-center gap-1 border border-line px-2 text-[10px] uppercase tracking-[0.1em] text-t3 transition-colors hover:border-cy/50 hover:text-cy disabled:cursor-not-allowed disabled:opacity-30"
+      className="flex h-7 items-center gap-1 rounded border border-line/70 px-2.5 text-[10.5px] uppercase tracking-[0.08em] text-t3 transition-colors hover:border-cy/50 hover:bg-panel2 hover:text-cy disabled:cursor-not-allowed disabled:opacity-30"
     >
       {children}
     </button>
@@ -82,7 +82,7 @@ function JumpBtn({
 export default function ControlsBar(p: Props) {
   const pct = p.total <= 1 ? 0 : (p.idx / (p.total - 1)) * 100;
   return (
-    <div className="flex h-14 items-center gap-2 border-t border-line bg-panel/95 px-4 backdrop-blur-sm">
+    <div className="flex h-[52px] items-center gap-2 border-t border-line bg-panel/98 px-4 backdrop-blur-sm">
       <Btn onClick={p.onReset} title="Reset (R)">
         <span className="text-[13px]">⏮</span> reset
       </Btn>

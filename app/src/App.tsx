@@ -29,6 +29,8 @@ import GridPanel from '@/components/algo/GridPanel';
 import MemoPanel from '@/components/algo/MemoPanel';
 import HeapObjectsPanel from '@/components/algo/HeapObjectsPanel';
 import MetricsPanel from '@/components/algo/MetricsPanel';
+import ResultTreePanel, { parseLevelOrder } from '@/components/algo/ResultTreePanel';
+import ResultGraphPanel from '@/components/algo/ResultGraphPanel';
 import AlgoInputs from '@/components/algo/AlgoInputs';
 
 type Theme = 'dark' | 'light';
@@ -522,6 +524,21 @@ export default function App() {
     };
   }, [dstate]);
 
+  /** Detect problems whose result is a level-order tree array — show output tree. */
+  const resultTree = useMemo(() => {
+    if (!algo || !traced) return null;
+    if (!parseLevelOrder(traced.res.result)) return null;
+    // only use a level-order input as the "before" tree (inorder/postorder are not level-order)
+    const treeInput = algo.solution.inputs.find(
+      (s) => s.kind === 'numbers' && s.label.toLowerCase().includes('level-order'),
+    );
+    return {
+      result: traced.res.result,
+      inputVals: treeInput ? (args[treeInput.name] as number[]) : undefined,
+      inputLabel: treeInput ? 'input tree' : undefined,
+    };
+  }, [algo, traced, args]);
+
   /* ---------------------------- catalog filtering --------------------------- */
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -554,29 +571,29 @@ export default function App() {
       <ThreeBackground theme={theme} />
 
       {/* header */}
-      <header className="flex h-12 shrink-0 items-center justify-between border-b border-line bg-panel/90 px-4 backdrop-blur-sm">
+      <header className="flex h-12 shrink-0 items-center justify-between border-b border-line bg-panel/95 px-4 backdrop-blur-sm">
         <div className="flex items-center gap-3">
-          <div className="flex h-7 w-9 items-center justify-center border border-cy/50 bg-cy/10 font-mono text-[11px] text-cy">
+          <div className="flex h-7 w-9 items-center justify-center rounded border border-cy/40 bg-cy/[0.08] font-mono text-[11px] text-cy">
             ƒ(ƒ)
           </div>
           <div>
-            <h1 className="text-[13px] font-bold uppercase tracking-[0.28em] text-t1">
+            <h1 className="text-[13px] font-bold uppercase tracking-[0.26em] text-t1">
               Recursion Lab
             </h1>
-            <p className="text-[9px] uppercase tracking-[0.24em] text-t4">
+            <p className="text-[9px] uppercase tracking-[0.22em] text-t4">
               visual dry-run debugger
             </p>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <span className="hidden text-[10px] uppercase tracking-[0.2em] text-t3 sm:block">
+          <span className="hidden text-[10.5px] text-t3 sm:block">
             {item.topic} · {item.title}
           </span>
           <div
-            className="flex items-center gap-2 border px-2.5 py-1"
+            className="flex items-center gap-2 rounded border px-2.5 py-1"
             style={{
-              borderColor: `color-mix(in srgb, ${statusColor} 33%, transparent)`,
-              background: `color-mix(in srgb, ${statusColor} 7%, transparent)`,
+              borderColor: `color-mix(in srgb, ${statusColor} 30%, transparent)`,
+              background: `color-mix(in srgb, ${statusColor} 8%, transparent)`,
             }}
           >
             <span
@@ -584,7 +601,7 @@ export default function App() {
               style={{ background: statusColor }}
             />
             <span
-              className="text-[9.5px] font-medium uppercase tracking-[0.22em]"
+              className="text-[9.5px] font-semibold uppercase tracking-[0.2em]"
               style={{ color: statusColor }}
             >
               {status}
@@ -593,7 +610,7 @@ export default function App() {
           <button
             onClick={() => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))}
             title={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
-            className="flex h-7 w-7 items-center justify-center border border-line text-[13px] text-t3 transition-colors hover:border-cy/50 hover:text-cy"
+            className="flex h-7 w-7 items-center justify-center rounded border border-line text-[13px] text-t3 transition-colors hover:border-cy/50 hover:text-cy"
           >
             {theme === 'dark' ? '☀' : '☾'}
           </button>
@@ -730,8 +747,10 @@ export default function App() {
                         <div
                           key={c.id}
                           onClick={() => selectItem(c.id)}
-                          className={`flex w-full cursor-pointer items-center gap-2.5 border-b border-line2 px-3 py-2.5 transition-colors duration-150 ${
-                            active ? 'bg-cy/[0.07]' : 'hover:bg-panel2'
+                          className={`flex w-full cursor-pointer items-center gap-2.5 border-b border-line2 px-3 py-[11px] transition-colors duration-150 ${
+                            active
+                              ? 'bg-cy/[0.09] border-l-2 border-l-cy/60'
+                              : 'hover:bg-panel2'
                           }`}
                         >
                           <button
@@ -740,23 +759,23 @@ export default function App() {
                               cycleProgress(c.id);
                             }}
                             title={`${meta.label} — click to cycle`}
-                            className={`shrink-0 text-[15px] leading-none transition-colors hover:scale-110 ${meta.cls}`}
+                            className={`shrink-0 text-[15px] leading-none transition-transform hover:scale-110 ${meta.cls}`}
                           >
                             {meta.icon}
                           </button>
                           <span
-                            className={`min-w-0 flex-1 truncate text-[12.5px] ${
-                              active ? 'text-cy' : st === 'done' ? 'text-t4' : 'text-t2'
+                            className={`min-w-0 flex-1 truncate text-[12.5px] leading-snug ${
+                              active ? 'font-medium text-cy' : st === 'done' ? 'text-t4' : 'text-t2'
                             }`}
                           >
-                            <span className="mr-2 font-mono text-[10.5px] text-t5">
+                            <span className="mr-2 font-mono text-[10px] text-t5">
                               {String(i + 1).padStart(2, '0')}
                             </span>
                             {c.title}
                           </span>
                           {c.kind === 'classic' ? (
                             <span
-                              className={`shrink-0 border px-1.5 py-0.5 text-[10px] uppercase tracking-[0.12em] ${
+                              className={`shrink-0 rounded border px-1.5 py-0.5 text-[10px] uppercase tracking-[0.1em] ${
                                 active ? 'border-cy/40 text-cy' : 'border-line text-t4'
                               }`}
                             >
@@ -764,7 +783,7 @@ export default function App() {
                             </span>
                           ) : (
                             <span
-                              className={`shrink-0 text-[10px] font-medium uppercase tracking-[0.08em] ${DIFF_COLOR[c.difficulty]}`}
+                              className={`shrink-0 text-[10.5px] font-semibold ${DIFF_COLOR[c.difficulty]}`}
                             >
                               {c.difficulty}
                             </span>
@@ -994,6 +1013,16 @@ export default function App() {
                   />
                 </div>
               )}
+              {/* result graph overlay — shown when trace is complete */}
+              {structures?.graph && dstate && stepIdx >= total - 1 && (
+                <div className="shrink-0 overflow-y-auto border-b border-line">
+                  <ResultGraphPanel
+                    data={structures.graph}
+                    slug={algo!.slug}
+                    dstate={dstate}
+                  />
+                </div>
+              )}
               <div className={`${ui.stackOpen ? 'min-h-0 flex-[1.1]' : 'shrink-0'} border-b border-line`}>
                 <StackPanel
                   stack={toStackFrames(dstate!)}
@@ -1021,7 +1050,7 @@ export default function App() {
                   />
                 </div>
               )}
-              <div className="shrink-0">
+              <div className="shrink-0 overflow-y-auto">
                 <MetricsPanel
                   entry={algo!.solution.entry(args)}
                   calls={dstate!.calls}
@@ -1034,6 +1063,13 @@ export default function App() {
                   collapsed={!ui.metricsOpen}
                   onToggle={() => patchUi({ metricsOpen: !ui.metricsOpen })}
                 />
+                {resultTree && (
+                  <ResultTreePanel
+                    result={resultTree.result}
+                    inputVals={resultTree.inputVals}
+                    inputLabel={resultTree.inputLabel}
+                  />
+                )}
               </div>
             </>
           )}

@@ -59,6 +59,11 @@ import { TREES_2_PROBLEMS } from '@/solutions/trees-2';
 import { BACKTRACKING_2_PROBLEMS } from '@/solutions/backtracking-2';
 import { BIT_PROBLEMS } from '@/solutions/bit-manipulation';
 import { MATH_PROBLEMS } from '@/solutions/math-1';
+import { UNION_FIND_PROBLEMS } from '@/solutions/union-find';
+import { MONOTONIC_STACK_PROBLEMS } from '@/solutions/monotonic-stack';
+import { INTERVALS_PROBLEMS } from '@/solutions/intervals';
+import { GRAPHS_3_PROBLEMS } from '@/solutions/graphs-3';
+import { DP_ADVANCED_PROBLEMS } from '@/solutions/dp-advanced';
 // ---- grid / matrix singles ----
 import { rowTraversal } from '@/solutions/grid/row-traversal';
 import { colTraversal } from '@/solutions/grid/col-traversal';
@@ -272,10 +277,14 @@ const RAW_PROBLEMS: AlgoProblem[] = [
     'Backtracking plus a memo of failing positions — tried once, never again.', wordBreak),
   ...BACKTRACKING_2_PROBLEMS,
 
+  // ---- Union-Find ----
+  ...UNION_FIND_PROBLEMS,
+
   // ---- Graphs ----
   ...retopic(GRAPHS_PROBLEMS, 'Graphs'),
   // content twins of existing Matrix/Grid problems (different slugs, same algorithms)
   ...dropIn(GRAPHS_2_PROBLEMS, 'shortest-path-in-binary-matrix', 'max-area-of-island'),
+  ...GRAPHS_3_PROBLEMS,
 
   // ---- Matrix / Grid ----
   ...(
@@ -306,6 +315,12 @@ const RAW_PROBLEMS: AlgoProblem[] = [
   ).map(([slug, title, difficulty, lc, summary, solution]) =>
     mk('Matrix / Grid', 'recursion', slug, title, difficulty, lc, summary, solution),
   ),
+
+  // ---- Monotonic Stack ----
+  ...MONOTONIC_STACK_PROBLEMS,
+
+  // ---- Intervals ----
+  ...INTERVALS_PROBLEMS,
 
   // ---- Greedy ----
   ...retopic(GREEDY_PROBLEMS, 'Greedy'),
@@ -348,6 +363,7 @@ const RAW_PROBLEMS: AlgoProblem[] = [
     'palindromic-substrings', 'palindromic-substrings-dp', '(DP)',
   ),
   ...retopic(DP_PROBLEMS, 'Advanced DP'),
+  ...DP_ADVANCED_PROBLEMS,
 ];
 
 const seenSlugs = new Set<string>();

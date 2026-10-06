@@ -91,7 +91,7 @@ int find(int x) {                       // walk up to the root
           total += w
           used++
           heap("mstEdges", taken.map((i) => `${EDGES[i][0]}-${EDGES[i][1]}:${EDGES[i][2]}`))
-          vars({ edge: `${u}-${v}`, total, used })
+          vars({ u, v, edge: `${u}-${v}`, total, used })
           line(7, `Roots differ (${ru} ≠ ${rv}) — union: parent[${rv}] = ${ru}. Edge ${u}-${v} joins the MST (total ${total}).`)
           if (used === V - 1) {
             line(8, `${V - 1} edges taken — a spanning tree of ${V} nodes is complete. Stop.`)
